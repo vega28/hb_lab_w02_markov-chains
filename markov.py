@@ -54,7 +54,7 @@ def make_chains(text_string):
     # as we iterate add to our markov dict. we also want to create a tuple(key) and
     for i in range(len(words)-2): # deal with edge case @ end of list using -2
         # my_dict[key] = value
-        if (words[i],words[i+1]) not in chains:
+        if (words[i], words[i+1]) not in chains:
             chains[(words[i],words[i+1])] = [words[i+2]]
             # append to values list if the key-value pair exists already
         else:
@@ -64,7 +64,8 @@ def make_chains(text_string):
             # values.append(' the word after that') 
     # add our words to the list as the value. 
     # check out keys to see if they exist
-    print(chains)
+    for chain in chains:
+        print(chain,':',chains[chain])
     return chains
 
 
@@ -73,8 +74,39 @@ def make_text(chains):
 
     words = []
 
-    # your code goes here
+    # dict structure: 
+    #   key is tuple - (word1, word2)
+    #
+    #   value is list of possible next words - [word3, word4, word5 ...]
 
+    
+    # choose starting key
+    key = ('Would', 'you')
+    words.extend(list(key))
+    # iterate:
+    
+    while True:
+    #   choose random_word from value list: randchoice(value_list)
+        random_val = choice(chains[key])
+
+    #       append it to words
+        words.append(random_val)
+    #       new key = word2 from previous key + random_word  
+        key = (key[1], random_val)
+        if key not in chains:
+            break
+
+
+   
+    # KeyError - no keys exist that have ('I', 'am?')
+
+
+        # testing - no infinite loops
+        # i +=1
+        # if i>10:
+        #     break
+        
+    print(words)
     return ' '.join(words)
 
 
